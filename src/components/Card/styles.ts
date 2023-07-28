@@ -2,20 +2,20 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    height: 80,
+    height: 130,
     width: '100%',
     backgroundColor: '#fff',
     flexDirection: 'row',
     alignItems: 'center',
     borderColor: '#E3E3E3',
     borderWidth: 1,
-    paddingLeft: 22,
+    paddingLeft: 10,
     marginBottom: 8,
-    borderRadius: 4
+    borderRadius: 20
   },
   content: {
     flex: 1,
-    padding: 22,
+    padding: 10,
   },
   title: {
     fontSize: 15,
@@ -23,11 +23,11 @@ export const styles = StyleSheet.create({
     color: '#3D434D',
     fontWeight: 'bold',
   },
-  email: {
+  pix: {
     color: '#888D97',
     fontSize: 13,
   },
-  password: {
+  bank: {
     color: '#1967FB',
     fontSize: 15,
     fontWeight: 'bold',

@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFCC00',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 20,
   },
   title: {
     fontWeight: 'bold',

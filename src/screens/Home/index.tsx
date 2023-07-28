@@ -7,13 +7,15 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import { styles } from './styles';
 import { Button } from '../../components/Button';
-
+import Toast from 'react-native-toast-message';
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
+import * as Clipboard from 'expo-clipboard';
+import { useNavigation } from '@react-navigation/native';
 
 export function Home() {
   const [data, setData] = useState<CardProps[]>([]);
   const {getItem, setItem} = useAsyncStorage("@pixa:keyspix")
-
+  const navigation = useNavigation();
   async function handleFeth () {
     const response = await getItem() 
     const data = response?JSON.parse(response):[]
@@ -26,6 +28,20 @@ export function Home() {
     const data = previousData.filter((item:CardProps)=>item.id !== id)
     setItem(JSON.stringify(data))
     setData(data)
+  }
+
+  function handleShow(item: CardProps){
+    console.log(item)
+    navigation.navigate('Detail',item);
+  }
+
+  async function handleCopy(keyPix:string) {
+    //console.log(keyPix)
+    await Clipboard.setStringAsync(keyPix);
+    Toast.show({
+      type:"success",
+      text1:"Chave copiada com sucesso!"
+     })
   }
 
 
@@ -55,7 +71,8 @@ export function Home() {
         renderItem={({ item }) =>
           <Card
             data={item}
-            onPress={() => handleRemove(item.id)}
+            onPress={() => handleCopy(item.keyPix)}
+            show = {()=>handleShow(item)}
           />
         }
       />

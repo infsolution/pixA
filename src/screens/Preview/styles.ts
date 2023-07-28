@@ -3,12 +3,15 @@ import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export const styles = StyleSheet.create({
   container: {
+    flex:1,
     backgroundColor: '#F2F3F5',
     alignItems: 'center',
+    justifyContent: 'center',
+    
   },
   form: {
-    flex: 1,
-    padding: 24,
+    paddingLeft: 24,
+    paddingRight: 24,
   },
   content: {
     width: '100%',
@@ -17,5 +20,5 @@ export const styles = StyleSheet.create({
     width: '100%',
     padding: 24,
     marginBottom: getBottomSpace() + 24
-  }
+  },
 });

@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home } from '../screens/Home';
 import { Form } from '../screens/Form';
 import { Preview } from '../screens/Preview';
+import { Detail } from '../screens/Detail'
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -23,6 +24,11 @@ export function Routes() {
         <Screen
           name="Form"
           component={Form}
+        />
+
+        <Screen 
+          name="Detail"
+          component={Detail}
         />
       </Navigator>
     </NavigationContainer>

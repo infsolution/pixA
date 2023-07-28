@@ -4,12 +4,14 @@ import Toast from 'react-native-toast-message';
 import uuid from 'react-native-uuid';
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import { styles } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { HeaderForm } from '../../components/HeaderForm';
 
 export function Form() {
+  const navigation = useNavigation();
   const [name, setName] = useState("");
   const [keyPix, setKeyPix] = useState("");
   const [bank, setBank] = useState("");
@@ -31,9 +33,10 @@ export function Form() {
       const data = [...previousData, keyData]
 
       await setItem(JSON.stringify(data))
+      navigation.navigate("Home");
       Toast.show({
        type:"success",
-       text1:"Chaave guardada com sucesso!"
+       text1:"Chave guardada com sucesso!"
       })
     } catch (error) {
       Toast.show({
@@ -54,7 +57,7 @@ export function Form() {
 
           <View style={styles.form}>
             <Input
-              label="Nome"
+              label="Nome da pessoa"
               onChangeText={setName}
             />
             <Input
@@ -71,7 +74,7 @@ export function Form() {
 
           <View style={styles.footer}>
             <Button
-              title="Salvar"
+              title="Guardar"
               onPress={handleAdd}
             />
           </View>

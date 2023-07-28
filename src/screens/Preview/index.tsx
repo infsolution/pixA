@@ -18,6 +18,7 @@ export function Preview(){
     async function getUser(){
         const response = await getItem()
         const data = response?JSON.parse(response):null
+        console.log(data)
         if(data){
             navigation.navigate("Home");
         }
@@ -30,12 +31,19 @@ export function Preview(){
         name
         }
         try {
-            await setItem(JSON.stringify(data))
-            Toast.show({
-                type:"success",
-                text1:"Nome adicionado com sucesso!"
-            })
-            navigation.navigate("Home");
+            if(name == ''){
+                Toast.show({
+                    type:"error",
+                    text1:"Não entendi seu nome, por favor diga novamente!"
+                   })    
+            }else{
+                await setItem(JSON.stringify(data))
+                Toast.show({
+                    type:"success",
+                    text1:"Nome adicionado com sucesso!"
+                })
+                navigation.navigate("Home");
+            }
         } catch (error) {
             Toast.show({
                 type:"error",
@@ -49,19 +57,21 @@ export function Preview(){
     },[]);
 
     return(
-        <View style={styles.content}>
-             <View style={styles.form}>
-             <Input
-              label="Nome"
-              onChangeText={setName}
-            />
-             </View>
-             <View style={styles.footer}>
-            <Button
-              title="Salvar"
-              onPress={addUser}
-            />
-          </View>
+        <View style={styles.container}>
+             <View style={styles.content}>
+                <View style={styles.form}>
+                    <Input 
+                    label= "Qual seu nome?"
+                    onChangeText={setName}
+                    />
+                </View>
+                <View style={styles.footer}>
+                    <Button
+                    title="Lembrar"
+                    onPress={addUser}
+                    />
+                </View>
+            </View>
         </View>
         
     )

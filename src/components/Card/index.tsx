@@ -13,15 +13,17 @@ export type CardProps = {
 type Props = {
   data: CardProps;
   onPress: () => void;
+  show: () =>void;
 }
 
-export function Card({ data, onPress }: Props) {
+export function Card({ data, onPress, show }: Props) {
   /*const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
   function togglePasswordIsVisible() {
     setPasswordIsVisible(prevState => !prevState);
   }*/
 
+  
   return (
     <View style={styles.container}>
       
@@ -31,10 +33,14 @@ export function Card({ data, onPress }: Props) {
           <Text style={styles.title}>
             {data.name}
           </Text>
-          <Text style={styles.title}>
+          <TouchableOpacity
+            onPress={show}
+          >
+          <Text style={styles.pix}>
             {data.keyPix}
           </Text>
-          <Text style={styles.title}>
+          </TouchableOpacity>
+          <Text style={styles.bank}>
             {data.bank}
           </Text>
 
@@ -47,7 +53,7 @@ export function Card({ data, onPress }: Props) {
         onPress={onPress}
       >
         <MaterialIcons
-          name="delete"
+          name="content-copy"
           size={22}
           color="#888D97"
         />

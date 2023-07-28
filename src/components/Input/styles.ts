@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
   label: {
     fontSize: 15,
     color: '#888D97',
-    marginBottom: 7
+    marginBottom: 7,
+    marginLeft: 5
   },
   input: {
     height: 56,
@@ -16,7 +17,7 @@ export const styles = StyleSheet.create({
     borderColor: '#E3E3E3',
     borderWidth: 1,
     paddingLeft: 22,
-    borderRadius: 4,
+    borderRadius: 25,
     backgroundColor: '#fff',
 
   }
