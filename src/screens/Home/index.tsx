@@ -31,12 +31,11 @@ export function Home() {
   }
 
   function handleShow(item: CardProps){
-    console.log(item)
-    navigation.navigate('Detail',item);
+    navigation.navigate('Detail', {id:item.id});
   }
 
   async function handleCopy(keyPix:string) {
-    //console.log(keyPix)
+
     await Clipboard.setStringAsync(keyPix);
     Toast.show({
       type:"success",

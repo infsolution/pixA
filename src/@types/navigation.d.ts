@@ -4,9 +4,6 @@ export type FormNavigationProps = {
 
 export type DetailNavigationProps = {
   id: string;
-  name: string;
-  keyPix: string;
-  bank: string;
 }
 export declare global {
   namespace ReactNavigation {
