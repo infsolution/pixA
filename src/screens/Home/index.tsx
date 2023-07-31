@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Text, View, TextInput } from 'react-native';
 
 import { Card, CardProps } from '../../components/Card';
 import { HeaderHome } from '../../components/HeaderHome';
@@ -11,9 +11,11 @@ import Toast from 'react-native-toast-message';
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import * as Clipboard from 'expo-clipboard';
 import { useNavigation } from '@react-navigation/native';
+import { Input } from '../../components/Input';
 
 export function Home() {
   const [data, setData] = useState<CardProps[]>([]);
+  const [term, setTerm] = useState("");
   const {getItem, setItem} = useAsyncStorage("@pixa:keyspix")
   const navigation = useNavigation();
   async function handleFeth () {
@@ -28,6 +30,17 @@ export function Home() {
     const data = previousData.filter((item:CardProps)=>item.id !== id)
     setItem(JSON.stringify(data))
     setData(data)
+  }
+
+  async function search(term:string){
+    const response = await getItem()
+    const previousData = response?JSON.parse(response):[]
+    const data = previousData.filter((item:CardProps)=>filter(item, term))
+    setData(data)
+  }
+
+  function filter(item:CardProps, term:string){
+    return item.id == term || item.name == term
   }
 
   function handleShow(item: CardProps){
@@ -51,16 +64,29 @@ export function Home() {
   return (
     <View style={styles.container}>
       <HeaderHome />
+      <View style={styles.containerInput}>
+        <TextInput 
+        style={styles.input} 
+        placeholder='Procura uma chave especial?'
+        onChange={()=>search(term)}
+        />
+      </View>
 
+      
       <View style={styles.listHeader}>
         <Text style={styles.title}>
           Chaves guardadas
         </Text>
-
         <Text style={styles.listCount}>
           {`${data.length} ao total`}
         </Text>
       </View>
+      <View >
+        <Text style={styles.description}>
+          Toque na chave para editar ou excluir
+        </Text>
+      </View>
+     
 
       <FlatList
         data={data}
@@ -76,11 +102,7 @@ export function Home() {
         }
       />
 
-      <View style={styles.footer}>
-        <Button
-          title="Limpar lista"
-        />
-      </View>
+  
     </View>
   );
 }

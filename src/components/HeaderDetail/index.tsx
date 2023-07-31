@@ -4,6 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { styles } from "./styles";
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 type key = {
     keyPix:string;
@@ -11,6 +12,7 @@ type key = {
 export function HeaderDetail({keyPix}: key){
     const {getItem, setItem} = useAsyncStorage("@pixa:userdata")
     const [user, setUser] = useState({id:"", name:""});
+    const navigation = useNavigation();
 
     async function getUser(){
         const response = await getItem()
@@ -30,10 +32,20 @@ export function HeaderDetail({keyPix}: key){
 
     return(
         <View style={styles.container}>
+            <TouchableOpacity
+                onPress={() => navigation.goBack()}
+            >
+                <MaterialIcons
+                name="chevron-left"
+                size={32}
+                color="#FFF"
+                />
+        </TouchableOpacity>
             <View >
                 <Text style={styles.title}>
-                    Compartilhar chave.
+                    Compartilhar
                 </Text>
+                
             </View>
             <TouchableOpacity
                 onPress={()=>handleShare(keyPix)}

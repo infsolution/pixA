@@ -36,5 +36,26 @@ export const styles = StyleSheet.create({
     width: '100%',
     padding: 24,
     marginBottom: getBottomSpace()
+  },
+  description:{
+    marginTop:5,
+    marginBottom:5,
+    fontSize: 14,
+    color: '#3D434D',
+    fontWeight: 'bold'
+  },
+  containerInput:{
+    marginTop: 10,
+    width: '100%',
+    paddingHorizontal: 24
+  },
+  input:{
+    height: 56,
+    width: '100%',
+    borderColor: '#E3E3E3',
+    borderWidth: 1,
+    paddingLeft: 22,
+    borderRadius: 25,
+    backgroundColor: '#fff'
   }
 });

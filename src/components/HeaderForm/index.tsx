@@ -4,8 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity, View, Text } from 'react-native';
 
 import { styles } from './styles';
-
-export function HeaderForm() {
+type key = {
+  title:string;
+}
+export function HeaderForm({title}:key) {
   const navigation = useNavigation();
 
   return (
@@ -22,7 +24,7 @@ export function HeaderForm() {
       </TouchableOpacity>
 
       <Text style={styles.title}>
-        Guardar nova chave
+        {title}
       </Text>
     </View>
   );

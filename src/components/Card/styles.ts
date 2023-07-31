@@ -18,17 +18,19 @@ export const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
-    fontSize: 15,
+    fontSize: 18,
     lineHeight: 18,
-    color: '#3D434D',
-    fontWeight: 'bold',
+    color: '#888D97',
   },
   pix: {
-    color: '#888D97',
+    color: '#1967FB',
     fontSize: 13,
+    fontWeight: 'bold',
+    marginTop: 5,
+    marginBottom: 5
   },
   bank: {
-    color: '#1967FB',
+    color: '#888D97',
     fontSize: 15,
     fontWeight: 'bold',
   },
