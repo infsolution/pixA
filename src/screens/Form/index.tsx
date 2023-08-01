@@ -10,6 +10,7 @@ import { Card, CardProps } from '../../components/Card';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { HeaderForm } from '../../components/HeaderForm';
+import { useForm, Controller } from 'react-hook-form';
 
 export function Form() {
   const navigation = useNavigation();
@@ -17,6 +18,7 @@ export function Form() {
   const [title, setTitle] = useState("Guadar uma nova chave");
   const [keyPix, setKeyPix] = useState("");
   const [bank, setBank] = useState("");
+  const {control, handleSubmit, formState:{errors}} = useForm<CardProps>();
 
   const [itemKey, setItemKey] = useState<CardProps>();
   const {setItem, getItem} = useAsyncStorage("@pixa:keyspix")
@@ -78,6 +80,10 @@ export function Form() {
   useEffect(()=>{
     getData()
   },[])
+  useEffect(()=>{
+    //CONTINUA
+    console.log("Error ",errors.name)
+  },[])
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -89,29 +95,57 @@ export function Form() {
           <HeaderForm title={title}/>
 
           <View style={styles.form}>
-            <Input
-              label="Nome da pessoa"
-              value={name}
-              onChangeText={setName}
+            <Controller 
+              control={control}
+              name={"name"}
+              rules={{
+                required: "Informe o nome da pessoa"
+              }}
+              render={
+                ({field:{value, onChange}})=>(<Input
+                  label="Nome da pessoa"
+                  value={name}
+                  onChangeText={setName}
+                />)
+              }
             />
-            <Input
-              label="Chave PIX"
-              autoCapitalize="none"
-              value={keyPix}
-              onChangeText={setKeyPix}
+            <Controller 
+              control={control}
+              name={"keyPix"}
+              rules={{
+                required:"Qual é a chave?"
+              }}
+              render={
+                ({field:{value, onChange}})=>(<Input
+                  label="Chave PIX"
+                  autoCapitalize="none"
+                  value={keyPix}
+                  onChangeText={setKeyPix}
+                />)
+              }
             />
-            <Input
-              label="Banco"
-              value={bank}
-              onChangeText={setBank}
-              //secureTextEntry
+            <Controller 
+              control={control}
+              name={"bank"}
+              rules={{
+                required: "Qual é o banco?"
+              }}
+              render={
+                ({field:{value, onChange}})=>(<Input
+                  label="Banco"
+                  value={bank}
+                  onChangeText={setBank}
+                  //secureTextEntry
+                />)
+              }
             />
+            
           </View>
 
           <View style={styles.footer}>
             <Button
               title="Guardar"
-              onPress={handleAdd}
+              onPress={handleSubmit(handleAdd)}
             />
           </View>
         </ScrollView>

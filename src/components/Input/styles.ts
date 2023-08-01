@@ -20,5 +20,13 @@ export const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: '#fff',
 
+  },
+  error:{
+    marginTop: 5,
+    marginLeft: 10,
+    fontSize:15,
+    color: '#f3180a',
+    fontWeight: 'bold'
   }
+
 });

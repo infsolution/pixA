@@ -1,6 +1,5 @@
 import { useCallback, useState, useEffect } from 'react';
-import { FlatList, Text, View, TextInput } from 'react-native';
-
+import { FlatList, Text, View, TextInput, BackHandler, Alert } from 'react-native';
 import { Card, CardProps } from '../../components/Card';
 import { HeaderHome } from '../../components/HeaderHome';
 import { useFocusEffect } from '@react-navigation/native';
@@ -40,7 +39,7 @@ export function Home() {
   }
 
   function filter(item:CardProps, term:string){
-    return item.id == term || item.name == term
+    return item.name.includes(term) || item.bank.includes(term)
   }
 
   function handleShow(item: CardProps){
@@ -61,6 +60,25 @@ export function Home() {
     handleFeth()
   },[]))
 
+
+  useEffect(()=>{
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to go back?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => backHandler.remove();
+  },[])
   return (
     <View style={styles.container}>
       <HeaderHome />
@@ -68,6 +86,7 @@ export function Home() {
         <TextInput 
         style={styles.input} 
         placeholder='Procura uma chave especial?'
+        onChangeText={setTerm}
         onChange={()=>search(term)}
         />
       </View>
