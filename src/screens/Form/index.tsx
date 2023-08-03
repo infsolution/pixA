@@ -14,24 +14,18 @@ import { useForm, Controller } from 'react-hook-form';
 
 export function Form() {
   const navigation = useNavigation();
-  const [name, setName] = useState("");
+  //const [name, setName] = useState("");
   const [title, setTitle] = useState("Guadar uma nova chave");
-  const [keyPix, setKeyPix] = useState("");
-  const [bank, setBank] = useState("");
-  const {control, handleSubmit, formState:{errors}} = useForm<CardProps>();
+  //const [keyPix, setKeyPix] = useState("");
+  //const [bank, setBank] = useState("");
+  const {control, handleSubmit, setValue, formState:{errors}} = useForm<CardProps>();
 
   const [itemKey, setItemKey] = useState<CardProps>();
   const {setItem, getItem} = useAsyncStorage("@pixa:keyspix")
   const route:RouteProp<{params: {id: string}}, 'params'> = useRoute()
 
-  async function handleAdd(){
-    const id = uuid.v4();
-    const keyData = {
-      id,
-      name,
-      keyPix,
-      bank
-    }
+  async function handleAdd(keyData:CardProps){
+    const id = String(uuid.v4());
     try {
       const response = await getItem()
       const previousData = response?JSON.parse(response):[]
@@ -41,11 +35,12 @@ export function Form() {
         const remove = previousData.filter((item:CardProps)=>item.id == route.params.id)
         const removed = previousData.filter((item:CardProps)=>item.id !== route.params.id)
 
-        remove[0].name = name
-        remove[0].keyPix = keyPix
-        remove[0].bank = bank
+        remove[0].name = keyData.name
+        remove[0].keyPix = keyData.keyPix
+        remove[0].bank = keyData.bank
         data = [...removed, remove[0]]
       }else{
+        keyData.id = id
         data = [...previousData, keyData]
       }
 
@@ -69,9 +64,9 @@ export function Form() {
     const itemKey = previousData.filter((item:CardProps)=>item.id == route.params.id)
     const data = itemKey[0]
     if(data){
-      setName(data.name)
-      setKeyPix(data.keyPix)
-      setBank(data.bank)
+      setValue('name',data.name)
+      setValue('keyPix',data.keyPix)
+      setValue('bank',data.bank)
       setTitle("Editar Pix de "+data.name)
     }
     setItemKey(data)
@@ -80,10 +75,7 @@ export function Form() {
   useEffect(()=>{
     getData()
   },[])
-  useEffect(()=>{
-    //CONTINUA
-    console.log("Error ",errors.name)
-  },[])
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -104,8 +96,9 @@ export function Form() {
               render={
                 ({field:{value, onChange}})=>(<Input
                   label="Nome da pessoa"
-                  value={name}
-                  onChangeText={setName}
+                  value={value}
+                  onChangeText={onChange}
+                  errorMessage={errors.name?.message}
                 />)
               }
             />
@@ -118,9 +111,10 @@ export function Form() {
               render={
                 ({field:{value, onChange}})=>(<Input
                   label="Chave PIX"
+                  value={value}
                   autoCapitalize="none"
-                  value={keyPix}
-                  onChangeText={setKeyPix}
+                  onChangeText={onChange}
+                  errorMessage={errors.keyPix?.message}
                 />)
               }
             />
@@ -133,9 +127,9 @@ export function Form() {
               render={
                 ({field:{value, onChange}})=>(<Input
                   label="Banco"
-                  value={bank}
-                  onChangeText={setBank}
-                  //secureTextEntry
+                  value={value}
+                  onChangeText={onChange}
+                  errorMessage={errors.bank?.message}
                 />)
               }
             />

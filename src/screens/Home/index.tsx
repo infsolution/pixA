@@ -32,10 +32,15 @@ export function Home() {
   }
 
   async function search(term:string){
-    const response = await getItem()
-    const previousData = response?JSON.parse(response):[]
-    const data = previousData.filter((item:CardProps)=>filter(item, term))
-    setData(data)
+
+    if(term.length > 2){
+      const response = await getItem()
+      const previousData = response?JSON.parse(response):[]
+      const data = previousData.filter((item:CardProps)=>filter(item, term))
+      setData(data)
+    }else if(term.length == 1){
+      handleFeth()
+    }
   }
 
   function filter(item:CardProps, term:string){
@@ -63,13 +68,13 @@ export function Home() {
 
   useEffect(()=>{
     const backAction = () => {
-      Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      Alert.alert("Pronto?", "Vai mesmo sair?", [
         {
-          text: "Cancel",
+          text: "Não! Espera...",
           onPress: () => null,
           style: "cancel"
         },
-        { text: "YES", onPress: () => BackHandler.exitApp() }
+        { text: "Tchau!", onPress: () => BackHandler.exitApp() }
       ]);
       return true;
     };

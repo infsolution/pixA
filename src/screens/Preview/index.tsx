@@ -9,6 +9,11 @@ import uuid from 'react-native-uuid';
 import { styles } from './styles';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
+
+import * as SplashScreen from 'expo-splash-screen';
+
+//SplashScreen.preventAutoHideAsync();
+
 export function Preview(){
 
     const {getItem, setItem} = useAsyncStorage("@pixa:userdata")
@@ -18,8 +23,8 @@ export function Preview(){
     async function getUser(){
         const response = await getItem()
         const data = response?JSON.parse(response):null
-        console.log(data)
         if(data){
+            //await SplashScreen.hideAsync();
             navigation.navigate("Home");
         }
     }
