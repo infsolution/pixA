@@ -4,6 +4,7 @@ import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import uuid from 'react-native-uuid';
+import { Image } from 'expo-image';
 
 
 import { styles } from './styles';
@@ -19,13 +20,19 @@ export function Preview(){
     const {getItem, setItem} = useAsyncStorage("@pixa:userdata")
     const navigation = useNavigation();
     const [name, setName] = useState("");
+    const [loaded, setLoaded] = useState(false)
 
     async function getUser(){
-        const response = await getItem()
-        const data = response?JSON.parse(response):null
-        if(data){
-            //await SplashScreen.hideAsync();
-            navigation.navigate("Home");
+        try {
+            const response = await getItem()
+            const data = response?JSON.parse(response):null
+            if(data){
+                navigation.navigate("Home");
+            }else{
+                setLoaded(true);
+            }
+        } catch (error) {
+            console.error(error)
         }
     }
 
@@ -58,12 +65,12 @@ export function Preview(){
     }
 
     useEffect(function(){
-        getUser()
+        setTimeout(()=>getUser(), 5000)
     },[]);
 
     return(
         <View style={styles.container}>
-             <View style={styles.content}>
+             {loaded && <View style={styles.content}>
                 <View style={styles.form}>
                     <Input 
                     label= "Qual seu nome?"
@@ -76,7 +83,18 @@ export function Preview(){
                     onPress={addUser}
                     />
                 </View>
-            </View>
+            </View>}
+            {!loaded &&
+
+            <Image 
+                style={styles.image}
+                source="https://picsum.photos/seed/696/3000/2000"
+                placeholder={"imageb"}
+                contentFit="cover"
+                transition={1000}
+            />
+
+            }
         </View>
         
     )

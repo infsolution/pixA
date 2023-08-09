@@ -21,4 +21,9 @@ export const styles = StyleSheet.create({
     padding: 24,
     marginBottom: getBottomSpace() + 24
   },
+  image: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: '#0553',
+  },
 });

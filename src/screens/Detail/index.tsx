@@ -2,7 +2,7 @@ import React, {useState, useCallback} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { styles } from './styles';
-import { KeyboardAvoidingView, Platform, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, View, Text, TouchableOpacity, Alert } from 'react-native';
 import { DetailNavigationProps } from '../../@types/navigation';
 import { HeaderDetail } from '../../components/HeaderDetail';
 import { Card, CardProps } from '../../components/Card';
@@ -12,7 +12,7 @@ import Toast from 'react-native-toast-message';
 
 export function Detail(){
     const [data, setData] = useState<CardProps[]>([]);
-    const [itemKey, setItemKey] = useState<CardProps>();
+    const [itemKey, setItemKey] = useState<CardProps>({id: '', name: '', keyPix:'', bank:''});
     const {getItem, setItem} = useAsyncStorage("@pixa:keyspix")
     const route:RouteProp<{params: {id: string}}, 'params'> = useRoute()
     const navigation = useNavigation();
@@ -29,6 +29,15 @@ export function Detail(){
         navigation.navigate('Form', {id:id});
     }
     async function handleDelete(id?:string) {
+        Alert.alert('Opa!',  'Apagar a chave não tem volta...',[
+            {text: "Melhor não.",
+            onPress: () => null,
+            style: "cancel"},
+            {text: "Pode apagar!", onPress: () =>deleteKey(id)}
+        ])
+      }
+
+      async function deleteKey(id?:string) {
         const response = await getItem()
         const previousData = response?JSON.parse(response):[]
         const data = previousData.filter((item:CardProps)=>item.id !== id)
@@ -47,7 +56,7 @@ export function Detail(){
 
     return(
         <View style={styles.container}>
-            <HeaderDetail keyPix={route.params.id}/>
+            <HeaderDetail keyPix={itemKey?.keyPix}/>
             <Text style={styles.title}>Chave de {itemKey?.name} no {itemKey?.bank}</Text>
             <View style={styles.content}>
                 <Text style={styles.text}>Nome: {itemKey?.name}</Text>
