@@ -8,8 +8,9 @@ import { useNavigation } from '@react-navigation/native';
 
 type key = {
     keyPix:string;
+    name: string;
 }
-export function HeaderDetail({keyPix}: key){
+export function HeaderDetail({keyPix, name}: key){
     const {getItem, setItem} = useAsyncStorage("@pixa:userdata")
     const [user, setUser] = useState({id:"", name:""});
     const navigation = useNavigation();
@@ -22,7 +23,7 @@ export function HeaderDetail({keyPix}: key){
 
       async function handleShare(key: string){
         const result = await Share.share({
-            message:"Olá! Estou compartilhando a chave pix "+key
+            message:"Olá! Estou compartilhando a chave pix "+key+" de "+name+"\n\n Se vocẽ também quiser compartilhar chaves PIX facilmente, baixe o app pixA e seja feliz."
         })
        }
     

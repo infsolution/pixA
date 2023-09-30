@@ -56,7 +56,7 @@ export function Detail(){
 
     return(
         <View style={styles.container}>
-            <HeaderDetail keyPix={itemKey?.keyPix}/>
+            <HeaderDetail keyPix={itemKey?.keyPix} name={itemKey?.name}/>
             <Text style={styles.title}>Chave de {itemKey?.name} no {itemKey?.bank}</Text>
             <View style={styles.content}>
                 <Text style={styles.text}>Nome: {itemKey?.name}</Text>
